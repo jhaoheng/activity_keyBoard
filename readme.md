@@ -26,3 +26,16 @@
 
 @end
 ```
+
+## 圖片轉代碼
+
+- activityKeyViewController.m
+	- (NSMutableArray *)imgToCode;
+
+**在此指定圖片轉出的 code 為何**
+
+- ex:
+	- pw : hqusajckeow
+	- img_1 = hqu
+	- img_2 = sajcke
+	- img_7 = ow
