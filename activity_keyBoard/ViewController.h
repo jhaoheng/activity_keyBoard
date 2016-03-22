@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "activityKeyViewController.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<finishDelegate>
 
 
 @end

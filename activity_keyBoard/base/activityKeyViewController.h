@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "keyboardVC.h"
 
+@protocol finishDelegate
+
+-(void)AKV_finish:(NSString *)value;
+
+@end
+
 @interface activityKeyViewController : UIViewController<kbDelegate>
 {
     UIToolbar *toolBar;
@@ -25,11 +31,16 @@
     //pinArray
     NSMutableArray *pinArray;
     
+    
+    //
+    NSObject<finishDelegate> *_delegate;
 }
 
 @property (nonatomic, strong) NSString *mainText;
 @property (nonatomic, strong) NSString *secondText;
 @property (nonatomic, strong) NSString *passWord;// 8 numbers code
 @property (nonatomic) int errorTimes;
+
+@property (nonatomic, retain) NSObject<finishDelegate> *_delegate;
 
 @end

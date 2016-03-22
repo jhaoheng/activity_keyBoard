@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "activityKeyViewController.h"
 
 @interface ViewController ()
 
@@ -40,7 +39,14 @@
     temp.secondText = @"次要標題";
     temp.passWord = @"12345678";
     temp.errorTimes = 3;
+    temp._delegate = self;
     [self presentViewController:temp animated:YES completion:nil];
+}
+
+#pragma activity Key Board delegate
+- (void)AKV_finish:(NSString *)value
+{
+    NSLog(@"finish serial(PW) is : %@",value);
 }
 
 @end

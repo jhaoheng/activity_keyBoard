@@ -16,6 +16,7 @@
 @synthesize mainText,secondText;
 @synthesize passWord;
 @synthesize errorTimes;
+@synthesize _delegate;
 
 #pragma kb delegate
 - (void)kb_click:(NSString *)btn_string
@@ -421,9 +422,10 @@
         return;
     }
     activity_serial = [[self imgToCode] componentsJoinedByString:@""];
-    NSLog(@"final_pass:%@",activity_serial);
+    NSLog(@"final_serial_pass(waiting check) : %@",activity_serial);
     
     if ([activity_serial isEqualToString:passWord]) {
+        [_delegate AKV_finish:activity_serial];
         [self cancel_activity:nil];
         return;
     }
