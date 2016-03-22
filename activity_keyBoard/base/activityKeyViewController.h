@@ -6,6 +6,16 @@
 //  Copyright © 2016年 max. All rights reserved.
 //
 
+/*
+ activityKeyViewController *temp  = [[activityKeyViewController alloc]init];
+ temp.mainText = @"主要標題";
+ temp.secondText = @"次要標題";
+ temp.passWord = @"12345678";
+ temp.errorTimes = 3;
+ temp._delegate = self;
+ [self presentViewController:temp animated:YES completion:nil];
+ */
+
 #import <UIKit/UIKit.h>
 #import "keyboardVC.h"
 
