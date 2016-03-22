@@ -41,5 +41,6 @@
 
 @property (nonatomic) CGFloat side_interval, btn_interval, btn_size;
 @property (nonatomic) CGSize kb_size;
+@property (nonatomic) UIColor *keyBoard_bgColor;
 
 @end

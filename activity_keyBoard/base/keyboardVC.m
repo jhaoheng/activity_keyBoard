@@ -17,6 +17,7 @@
 
 @synthesize side_interval,btn_interval,btn_size;
 @synthesize kb_size;
+@synthesize keyBoard_bgColor;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,7 +35,7 @@
     
     CGRect keyboard_Frame = CGRectMake(side_interval, side_interval, kb_size.width, kb_size.height);
     keyboardView = [[UIView alloc] initWithFrame:keyboard_Frame];
-    keyboardView.backgroundColor = [UIColor whiteColor];
+    keyboardView.backgroundColor = keyBoard_bgColor;
     [self.view addSubview:keyboardView];
     
     //

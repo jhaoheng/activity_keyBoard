@@ -376,6 +376,7 @@
 {
     keyboardVC *temp = [[keyboardVC alloc] init];
     temp._delegate = self;
+    temp.keyBoard_bgColor = self.view.backgroundColor;
     temp.side_interval = 10;
     temp.btn_interval = 15;
     temp.btn_size = (CGRectGetWidth(self.view.frame)-2*temp.side_interval - 5*temp.btn_interval)/4;

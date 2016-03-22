@@ -36,8 +36,8 @@
 - (void)activity
 {
     activityKeyViewController *temp  = [[activityKeyViewController alloc]init];
-    temp.mainText = @"請設定交易密碼";
-    temp.secondText = @"密碼設定完成，才完成註冊程序";
+    temp.mainText = @"主要標題";
+    temp.secondText = @"次要標題";
     temp.passWord = @"12345678";
     temp.errorTimes = 3;
     [self presentViewController:temp animated:YES completion:nil];
