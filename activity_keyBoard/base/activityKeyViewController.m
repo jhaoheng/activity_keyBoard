@@ -15,8 +15,9 @@
 @implementation activityKeyViewController
 @synthesize mainText,secondText;
 @synthesize passWord;
-@synthesize errorTimes;
+@synthesize errorTimes_limited;
 @synthesize _delegate;
+@synthesize AKBType=_AKBType;
 
 #pragma kb delegate
 - (void)kb_click:(NSString *)btn_string
@@ -26,20 +27,18 @@
     if([btn_string isEqualToString:@"img_back"])
     {
         NSLog(@"後退");
-        [pinArray removeLastObject];
         [self clearPinView:@"clearLastPin"];
         return;
     }
     else if([btn_string isEqualToString:@"img_clear"])
     {
         NSLog(@"清除");
-        [pinArray removeAllObjects];
         [self clearPinView:@"clearAllPin"];
         return;
     }
     //
     if (pinArray.count>=8) {
-        [self alertContrlOfTitle:@"" andMsg:@"Error"];
+//        [self alertContrlOfTitle:@"" andMsg:@"Error"];
     }
     else
     {
@@ -54,8 +53,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:.9 alpha:1];
     // Do any additional setup after loading the view.
-    
-    errorTimes = 0;
     
     [self set_ToolBar];
     [self set_titleView:@"Security Token Activation"];
@@ -88,8 +85,6 @@
     
     [self set_activity_keyBoard_View:space andOri_y:ori_y];
     
-    //btn : 確認 / 取消 : min 50h
-    [self set_bottom_btn:bottom_btn_h];
 
 }
 
@@ -107,6 +102,15 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - 設定 動態鍵盤 模式
+- (void)setAKBType:(AKeyBoardType)AKBType
+{
+    //btn : 設定底下按鈕 : min 50h
+    NSLog(@"動態鍵盤 模式 : %@",AKeyBoardType_String(AKBType));
+    _AKBType = AKBType;
+    [self set_bottom_btn:50];
+}
 
 #pragma mark - toolBar 
 - (void)set_ToolBar
@@ -292,6 +296,8 @@
 - (void)clearPinView:(NSString *)action
 {
     if ([action isEqualToString:@"clearAllPin"]) {
+        
+        [pinArray removeAllObjects];
         selectedImg_1.image = NULL;
         selectedImg_2.image = NULL;
         selectedImg_3.image = NULL;
@@ -303,6 +309,7 @@
     }
     else if ([action isEqualToString:@"clearLastPin"])
     {
+        [pinArray removeLastObject];
         switch (pinArray.count+1) {
             case 1:
                 selectedImg_1.image = NULL;
@@ -401,10 +408,27 @@
     UIButton *confirm_btn = [UIButton buttonWithType:UIButtonTypeCustom];
     confirm_btn.frame = CGRectMake(0, bottom_ori_y, bottom_w, bottom_h);
     confirm_btn.backgroundColor = [UIColor greenColor];
-    [confirm_btn setTitle:@"確認" forState:UIControlStateNormal];
-    [confirm_btn addTarget:self action:@selector(confirm_activity:) forControlEvents:UIControlEventTouchUpInside];
+    if (_AKBType==AKeyBoardType_settingPin) {
+        btn_status = setting_first;
+        [confirm_btn setTitle:@"下一步" forState:UIControlStateNormal];
+        [confirm_btn addTarget:self action:@selector(confirm_settingPin:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else if (_AKBType==AKeyBoardType_verifyPin)
+    {
+        verifyErrorTimes = 0;
+        [confirm_btn setTitle:@"驗證" forState:UIControlStateNormal];
+        [confirm_btn addTarget:self action:@selector(confirm_verifyPin:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else if (_AKBType==AKeyBoardType_resetPin)
+    {
+        verifyErrorTimes = 0;
+        btn_status = reset_first;
+        [confirm_btn setTitle:@"驗證" forState:UIControlStateNormal];
+        [confirm_btn addTarget:self action:@selector(confirm_resetPin:) forControlEvents:UIControlEventTouchUpInside];
+    }
     [self.view addSubview:confirm_btn];
     
+    //取消按鈕
     UIButton *cancel_btn = [UIButton buttonWithType:UIButtonTypeCustom];
     cancel_btn.frame = CGRectMake(CGRectGetMaxX(confirm_btn.frame), bottom_ori_y, bottom_w, bottom_h);
     cancel_btn.backgroundColor = [UIColor redColor];
@@ -414,35 +438,102 @@
 }
 
 #pragma mark bottom activity
-- (void)confirm_activity:(id)sender
+//設定 pin
+- (void)confirm_settingPin:(id)sender
 {
-//    activity_serial
-    if (pinArray.count!=8) {
-        [self alertContrlOfTitle:@"" andMsg:@"未滿8碼"];
+    if (![self is_pinLength_enough]) {
+        return;
+    }
+    
+    if (btn_status==setting_first) {
+        
+        //第一次輸入
+        tempPw_serial = [[self imgToCode] componentsJoinedByString:@""];
+        UIButton *btn = (UIButton *)sender;
+        [btn setTitle:@"確認" forState:UIControlStateNormal];
+        btn_status = setting_second;
+        [self clearPinView:@"clearAllPin"];//清除掉 Pin view
+    }
+    else if (btn_status==setting_second)
+    {
+        //第二次輸入
+        activity_serial = [[self imgToCode] componentsJoinedByString:@""];//將密碼陣列轉換成字串
+        if (![activity_serial isEqualToString:tempPw_serial]) {
+            [self alertContrlOfTitle:@"" andMsg:@"兩次輸入不相同"];
+            NSLog(@"兩次輸入不相同 : %@ : %@",tempPw_serial,activity_serial);
+        }
+        else
+        {
+            [_delegate AKV_finish:activity_serial];
+            [self alert_and_finshView:@"" andMsg:@"密碼 設定 成功"];
+            NSLog(@"設定密碼成功");
+        }
+    }
+}
+//驗證 pin
+- (void)confirm_verifyPin:(id)sender
+{
+    
+    if (![self is_pinLength_enough]) {
         return;
     }
     activity_serial = [[self imgToCode] componentsJoinedByString:@""];
-    NSLog(@"final_serial_pass(waiting check) : %@",activity_serial);
-    
-    if ([activity_serial isEqualToString:passWord]) {
-        [_delegate AKV_finish:activity_serial];
-        [self cancel_activity:nil];
+    if (![self is_correctPW]) {
         return;
     }
-    else
-    {
-        errorTimes++;
-    }
     
-    if (errorTimes>=3) {
-        [self alert_and_finshView:@"" andMsg:@"超過錯誤次數 3，系統關閉"];
-    }
-    else
-    {
-        [self alertContrlOfTitle:@"" andMsg:[NSString stringWithFormat:@"密碼錯誤 : %d 次",errorTimes]];
-    }
+    [_delegate AKV_finish:activity_serial];
+    [self alert_and_finshView:@"" andMsg:@"密碼 驗證 成功"];
+    NSLog(@"驗證成功");
 }
 
+//重設 pin
+- (void)confirm_resetPin:(id)sender
+{
+    if (![self is_pinLength_enough]) {
+        return;
+    }
+    
+    if (btn_status==reset_first)
+    {
+        //驗證
+        activity_serial = [[self imgToCode] componentsJoinedByString:@""];
+        if (![self is_correctPW]) {
+            return;
+        }
+        UIButton *btn = (UIButton *)sender;
+        [btn setTitle:@"下一步" forState:UIControlStateNormal];
+        btn_status = reset_second;
+        [self clearPinView:@"clearAllPin"];
+    }
+    else if (btn_status==reset_second)
+    {
+        //輸入第一次密碼
+        tempPw_serial = [[self imgToCode] componentsJoinedByString:@""];
+        UIButton *btn = (UIButton *)sender;
+        [btn setTitle:@"確認" forState:UIControlStateNormal];
+        btn_status = reset_third;
+        [self clearPinView:@"clearAllPin"];
+    }
+    else if (btn_status==reset_third)
+    {
+        //輸入第二次密碼
+        activity_serial = [[self imgToCode] componentsJoinedByString:@""];
+        if (![activity_serial isEqualToString:tempPw_serial]) {
+            NSLog(@"兩次輸入不相同 : %@ : %@",tempPw_serial,activity_serial);
+            [self alertContrlOfTitle:@"" andMsg:@"兩次輸入不相同"];
+        }
+        else
+        {
+            [_delegate AKV_finish:activity_serial];
+            [self alert_and_finshView:@"" andMsg:@"密碼 重設 成功"];
+            NSLog(@"設定密碼成功");
+        }
+    }
+    
+}
+
+#pragma mark 返回 btn
 - (void)cancel_activity:(id)sedner
 {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -496,6 +587,37 @@
         [tempArray addObject:temp];
     }
     return tempArray;
+}
+
+#pragma mark - 驗證方法
+//驗證長度
+- (BOOL)is_pinLength_enough
+{
+    if (pinArray.count!=8) {
+        [self alertContrlOfTitle:@"" andMsg:@"未滿8碼"];
+        return NO;
+    }
+    return YES;
+}
+//驗證密碼正確性
+- (BOOL)is_correctPW
+{
+    if ([activity_serial isEqualToString:passWord]) {
+        return YES;
+    }
+    else
+    {
+        verifyErrorTimes++;
+    }
+    
+    if (verifyErrorTimes>=errorTimes_limited) {
+        [self alert_and_finshView:@"" andMsg:@"超過錯誤次數 3，系統關閉"];
+    }
+    else
+    {
+        [self alertContrlOfTitle:@"" andMsg:[NSString stringWithFormat:@"密碼錯誤 : %d 次",verifyErrorTimes]];
+    }
+    return NO;
 }
 
 @end

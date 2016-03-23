@@ -10,7 +10,9 @@
 #import "activityKeyViewController.h"
 
 @interface ViewController : UIViewController<finishDelegate>
-
+{
+    NSString *pw_str;
+}
 
 @end
 
