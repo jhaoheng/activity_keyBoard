@@ -31,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E5C344F01CA2937A00381C29 /* imgCodeDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgCodeDefine.h; sourceTree = "<group>"; };
 		E5D7BD3E1CA04E2000086035 /* activity_keyBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = activity_keyBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5D7BD421CA04E2000086035 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E5D7BD441CA04E2000086035 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -120,6 +121,7 @@
 				E5D7BD5A1CA04E7100086035 /* activityKeyViewController.m */,
 				E5D7BD5B1CA04E7100086035 /* keyboardVC.h */,
 				E5D7BD5C1CA04E7100086035 /* keyboardVC.m */,
+				E5C344F01CA2937A00381C29 /* imgCodeDefine.h */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -380,6 +382,7 @@
 				E5D7BD571CA04E2000086035 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -54,13 +54,14 @@
 
 ## 圖片轉代碼
 
-- activityKeyViewController.m
-	- (NSMutableArray *)imgToCode;
+- imgCodeDefine.h
 
 **在此指定圖片轉出的 code 為何**
 
-- ex:
-	- pw : hqusajckeow
-	- img_1 = hqu
-	- img_2 = sajcke
-	- img_7 = ow
+設定 true or false
+
+- true  : 客制代碼
+- false : 制式代碼
+
+sample 中，預設的密碼為 '11111111'  
+故，此地方設定為 false

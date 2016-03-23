@@ -546,43 +546,43 @@
     for (int i=0; i<pinArray.count; i++) {
         NSString *temp = @"";
         if ([[pinArray objectAtIndex:i] isEqualToString:@"img_0"]) {
-            temp = @"0";
+            temp = [NSString stringWithFormat:@"%s",img_code_0];
         }
         else if ([[pinArray objectAtIndex:i] isEqualToString:@"img_1"])
         {
-            temp = @"1";
+            temp = [NSString stringWithFormat:@"%s",img_code_1];
         }
         else if ([[pinArray objectAtIndex:i] isEqualToString:@"img_2"])
         {
-            temp = @"2";
+            temp = [NSString stringWithFormat:@"%s",img_code_2];
         }
         else if ([[pinArray objectAtIndex:i] isEqualToString:@"img_3"])
         {
-            temp = @"3";
+            temp = [NSString stringWithFormat:@"%s",img_code_3];
         }
         else if ([[pinArray objectAtIndex:i] isEqualToString:@"img_4"])
         {
-            temp = @"4";
+            temp = [NSString stringWithFormat:@"%s",img_code_4];
         }
         else if ([[pinArray objectAtIndex:i] isEqualToString:@"img_5"])
         {
-            temp = @"5";
+            temp = [NSString stringWithFormat:@"%s",img_code_5];
         }
         else if ([[pinArray objectAtIndex:i] isEqualToString:@"img_6"])
         {
-            temp = @"6";
+            temp = [NSString stringWithFormat:@"%s",img_code_6];
         }
         else if ([[pinArray objectAtIndex:i] isEqualToString:@"img_7"])
         {
-            temp = @"7";
+            temp = [NSString stringWithFormat:@"%s",img_code_7];
         }
         else if ([[pinArray objectAtIndex:i] isEqualToString:@"img_8"])
         {
-            temp = @"8";
+            temp = [NSString stringWithFormat:@"%s",img_code_8];
         }
         else if ([[pinArray objectAtIndex:i] isEqualToString:@"img_9"])
         {
-            temp = @"9";
+            temp = [NSString stringWithFormat:@"%s",img_code_9];
         }
         [tempArray addObject:temp];
     }

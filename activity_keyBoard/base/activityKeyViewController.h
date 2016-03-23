@@ -8,6 +8,7 @@
 
 
 #import <UIKit/UIKit.h>
+#include "imgCodeDefine.h"
 #import "keyboardVC.h"
 
 typedef NS_ENUM(int, AKeyBoardType) {
