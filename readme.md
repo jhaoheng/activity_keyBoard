@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jhaoheng/activity_keyBoard.svg?branch=master)](https://travis-ci.org/jhaoheng/activity_keyBoard)
+
 ## 動態鍵盤
 
 - 依據圖片 0~9 隨機排列
