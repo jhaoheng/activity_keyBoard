@@ -1,15 +1,15 @@
 language: objective-c
-xcode_project: activity_keyBoard.xcodeproj
-xcode_scheme: activity_keyBoard
-osx_image: xcode7.3
-branch:
-  only:
-  - master
-notifications:
-  email: false
+#xcode_project: activity_keyBoard.xcodeproj
+#xcode_scheme: activity_keyBoard
+#osx_image: xcode7.3
+#branch:
+#  only:
+#  - master
+#notifications:
+#  email: false
 
-before_install:
-  - brew update
-  - brew outdated xctool || brew upgrade xctool
+#before_install:
+#  - brew update
+#  - brew outdated xctool || brew upgrade xctool
 script:
   - xctool test -project activity_keyBoard.xcodeproj -scheme activity_keyBoard -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
